@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 /* Formulario de inicio de sesión para el sistema SISALUD.
  */
@@ -69,7 +66,7 @@ public class InicioSesionForm extends JFrame {
 
 
                 if (rolSeleccionado.equalsIgnoreCase("Administrador")) {
-                    new Administrador();
+                    new Administrador(nombreUsuario);
                 } else {
                     new Recepcionista(nombreUsuario );
                 }

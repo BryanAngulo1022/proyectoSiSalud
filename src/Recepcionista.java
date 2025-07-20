@@ -74,6 +74,8 @@ public class Recepcionista extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 agendarCita();
+                cargarHorasDisponibles();
+
             }
         });
 
@@ -245,7 +247,7 @@ public class Recepcionista extends JFrame {
         LocalDate hoy = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 1; i < 5; i++) {
             LocalDate dia = hoy.plusDays(i);
             diaCombo.addItem(dia.format(formatter));
         }
@@ -280,8 +282,11 @@ public class Recepcionista extends JFrame {
 
             ResultSet rs = ps.executeQuery();
             Set<String> horasOcupadas = new HashSet<>();
+            DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
             while (rs.next()) {
-                horasOcupadas.add(rs.getString("hora"));
+                String horaBD = rs.getTime("hora").toLocalTime().format(formatoHora);
+                horasOcupadas.add(horaBD);
             }
 
             for (String hora : horas) {
@@ -295,13 +300,15 @@ public class Recepcionista extends JFrame {
         }
     }
 
+
     private List<String> generarIntervalos(String inicio, String fin) {
         List<String> lista = new ArrayList<>();
         LocalTime horaInicio = LocalTime.parse(inicio);
         LocalTime horaFin = LocalTime.parse(fin);
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
 
         while (!horaInicio.isAfter(horaFin.minusMinutes(30))) {
-            lista.add(horaInicio.toString());
+            lista.add(horaInicio.format(formatoHora));
             horaInicio = horaInicio.plusMinutes(30);
         }
         return lista;
@@ -334,9 +341,12 @@ public class Recepcionista extends JFrame {
             if (rs.next()) {
                 idPaciente = rs.getInt("id_paciente");
             } else {
-                JOptionPane.showMessageDialog(this, "Paciente no encontrado.");
+                JOptionPane.showMessageDialog(this, "Paciente no encontrado. Registre al paciente antes de agendar la cita.");
+                tabbedPane1.setSelectedComponent(registroPanel); // Cambiar a pestaña de registro
+                cedulaField.setText(ciPaciente); // Prellenar cédula en el registro
                 return;
             }
+
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + e.getMessage());

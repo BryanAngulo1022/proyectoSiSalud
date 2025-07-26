@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Recepcionista">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Roles.Recepcionista">
   <grid id="27dc6" binding="RecepcionistaPanel" layout-manager="GridBagLayout">
     <constraints>
       <xy x="20" y="20" width="514" height="540"/>
@@ -174,7 +174,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Burcar paciente"/>
+                  <text value="Buscar paciente"/>
                 </properties>
               </component>
               <component id="f8224" class="javax.swing.JLabel">

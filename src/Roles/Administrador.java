@@ -1,3 +1,7 @@
+package Roles;
+
+import AdministradorCRUD.*;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,22 +10,15 @@ public class Administrador extends JFrame {
     private JPanel AdministradorPanel;
     private JTabbedPane tabbedPane1;
     private JButton cerrarSesionButton;
-    private JButton regitrarUsuarioButton;
-    private JButton eliminarUsuarioButton;
-    private JButton verUsuariosButton;
-    private JButton registrarPacientesButton;
-    private JButton eliminarPacientesButton;
-    private JButton verPacientesButton;
-    private JButton registrarDoctoresButton;
-    private JButton eliminarDoctoresButton;
-    private JButton verDoctoresButton;
+    private JButton PacientesButton;
     private JButton registrarEspecilidadButton;
-    private JButton eliminarEscpecialidadButton;
+    private JButton eliminarEspecialidadButton;
     private JButton verEspecialidadButton;
     private JButton asignarDoctoresButton;
     private JButton verReporteButton;
     private JComboBox comboBox1;
     private JLabel nombreAdmCargar;
+    private JButton DoctoresButton;
 
     public Administrador(String nombreAdmin) {
         setTitle("Panel del Administrador- SISALUD");
@@ -44,16 +41,39 @@ public class Administrador extends JFrame {
             }
         });
 
-        //Panel de usuarios
+
 
         //Panel de pacientes
+        PacientesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new pacientesCRUD();
 
+            }
+        });
         //Panel de Doctores
+        DoctoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new doctoresCRUD();
+            }
+        });
+
+
+
+
+
 
         //Panel de Especialidad
 
         //Panel de Reportes
+
+
+
     }
+
+
+
 
 
 

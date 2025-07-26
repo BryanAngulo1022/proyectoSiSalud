@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Administrador">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Roles.Administrador">
   <grid id="27dc6" binding="AdministradorPanel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
@@ -35,108 +35,48 @@
         <children>
           <grid id="cc80" layout-manager="GridBagLayout">
             <constraints>
-              <tabbedpane title="Usuarios"/>
+              <tabbedpane title="Gestion de Usuarios"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <component id="69a1f" class="javax.swing.JButton" binding="regitrarUsuarioButton" default-binding="true">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="1.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Regitrar usuario"/>
-                </properties>
-              </component>
-              <component id="47658" class="javax.swing.JButton" binding="eliminarUsuarioButton" default-binding="true">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Eliminar usuario"/>
-                </properties>
-              </component>
-              <component id="1caac" class="javax.swing.JButton" binding="verUsuariosButton" default-binding="true">
+              <component id="47658" class="javax.swing.JButton" binding="PacientesButton">
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Ver Usuarios"/>
+                  <text value="Pacientes"/>
                 </properties>
               </component>
-            </children>
-          </grid>
-          <grid id="20d8" layout-manager="GridBagLayout">
-            <constraints>
-              <tabbedpane title="Pacientes"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="72e57" class="javax.swing.JButton" binding="eliminarPacientesButton" default-binding="true">
+              <component id="25da1" class="javax.swing.JButton" binding="DoctoresButton">
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Eliminar Pacientes"/>
+                  <text value="Doctores"/>
                 </properties>
               </component>
-              <component id="e0f88" class="javax.swing.JButton" binding="registrarPacientesButton" default-binding="true">
+              <vspacer id="c9d28">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="dba8d">
+                <constraints>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </vspacer>
+              <component id="62713" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="2" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Registrar Pacientes"/>
-                </properties>
-              </component>
-              <component id="c572c" class="javax.swing.JButton" binding="verPacientesButton" default-binding="true">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Ver Pacientes"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
-          <grid id="29325" layout-manager="GridBagLayout">
-            <constraints>
-              <tabbedpane title="Doctores"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="ddfaa" class="javax.swing.JButton" binding="registrarDoctoresButton" default-binding="true">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Registrar doctores"/>
-                </properties>
-              </component>
-              <component id="642a" class="javax.swing.JButton" binding="eliminarDoctoresButton" default-binding="true">
-                <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Eliminar doctores"/>
-                </properties>
-              </component>
-              <component id="bc82e" class="javax.swing.JButton" binding="verDoctoresButton" default-binding="true">
-                <constraints>
-                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0"/>
-                </constraints>
-                <properties>
-                  <text value="Ver doctores"/>
+                  <text value="IR a Gestion de: "/>
                 </properties>
               </component>
             </children>
@@ -157,13 +97,13 @@
                   <text value="Registrar Especilidad"/>
                 </properties>
               </component>
-              <component id="7dbcb" class="javax.swing.JButton" binding="eliminarEscpecialidadButton" default-binding="true">
+              <component id="7dbcb" class="javax.swing.JButton" binding="eliminarEspecialidadButton" default-binding="true">
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <text value="Eliminar Escpecialidad"/>
+                  <text value="Eliminar Especialidad"/>
                 </properties>
               </component>
               <component id="a546f" class="javax.swing.JButton" binding="verEspecialidadButton" default-binding="true">

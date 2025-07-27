@@ -4,11 +4,8 @@ import Conexion.ConexionBaseDatos;
 import imagenes.FondoPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.sql.*;
 
 /**
@@ -96,7 +93,6 @@ public class InicioSesionForm extends JFrame {
             //rs.next() evalua si hay un siguiente registro en el resultado"
             if (rs.next()) {
                 // Si se encuentra el usuario con los datos correctos
-                JOptionPane.showMessageDialog(this, "Acceso concedido como " + rolSeleccionado);
                 dispose(); // Cierra el formulario actual
 
                 String nombreUsuario = rs.getString("nombre");

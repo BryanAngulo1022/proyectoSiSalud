@@ -1,10 +1,16 @@
 package Roles;
 
 import Conexion.ConexionBaseDatos;
+import imagenes.FondoPanel;
 
 import javax.swing.*;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,8 +22,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * Clase Recepcionista que gestiona el panel de un recepcionista en el sistema SISALUD.
+ * Permite registrar pacientes, agendar citas y consultar historial médico.
+ */
 public class Recepcionista extends JFrame {
+
     private JPanel RecepcionistaPanel;
     private JTabbedPane tabbedPane1;
     private JTextField nombreField;
@@ -44,13 +54,28 @@ public class Recepcionista extends JFrame {
     private JComboBox horaCombo;
     private JLabel nombreUsuarioCargar;
 
+    /**
+     * Constructor que inicializa la interfaz del recepcionista y carga los eventos.
+     * @param nombreUsuario Nombre del usuario que inició sesión.
+     */
     public Recepcionista(String nombreUsuario) {
         setTitle("Panel del Recepcionista - SISALUD");
-        setContentPane(RecepcionistaPanel);
-        setSize(800, 600);
-        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(750, 800);
+        setLocationRelativeTo(null);
+        // Creamos el panel de fondo
+        FondoPanel fondo = new FondoPanel();
+        fondo.setImagen("/imagenes/login.jpg");
+        // Hacemos transparente el panel diseñado
+        RecepcionistaPanel.setOpaque(false);
+        // Añadimos el loginPanel (con los botones creados en el diseñador) al panel de fondo
+        fondo.add(RecepcionistaPanel);
+        // Establecemos el fondo como contentPane
+        setContentPane(fondo);
+        setResizable(false);
+        pack();
         setVisible(true);
+
 
         // Mostrar el nombre del usuario que inicia sesión
         nombreUsuarioCargar.setText("Bienvenido, " + nombreUsuario);
@@ -71,6 +96,8 @@ public class Recepcionista extends JFrame {
                 buscarPaciente();
             }
         });
+
+
         cargarEspecialidad();
         cargarDoctores();
 
@@ -78,8 +105,9 @@ public class Recepcionista extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 agendarCita();
-                cargarHorasDisponibles();
-
+                cedulaBuscarField.setText("");
+                //cargarHorasDisponibles();
+                //limpiarTodosLosCampos();
             }
         });
 
@@ -123,6 +151,9 @@ public class Recepcionista extends JFrame {
                 limpiarTodosLosCampos();
             }
         });
+
+
+
     }
 
     private void registrarPaciente() {
@@ -215,6 +246,12 @@ public class Recepcionista extends JFrame {
                 String nombre = rs.getString("nombre");
                 especialidadCombo.addItem(id + " - " + nombre);
             }
+
+            // Seleccionar el primer elemento por defecto
+            if (especialidadCombo.getItemCount() > 0) {
+                especialidadCombo.setSelectedIndex(0);
+            }
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar especialidades: " + e.getMessage());
         }
@@ -241,6 +278,12 @@ public class Recepcionista extends JFrame {
                 doctorCombo.addItem(idDoctor + " - " + nombre + " (" + jornada + ")");
             }
 
+            // Seleccionar el primer doctor automáticamente
+            if (doctorCombo.getItemCount() > 0) {
+                doctorCombo.setSelectedIndex(0);
+                cargarDiasDisponibles(); // Llamar inmediatamente
+            }
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al cargar doctores: " + e.getMessage());
         }
@@ -254,6 +297,11 @@ public class Recepcionista extends JFrame {
         for (int i = 1; i < 5; i++) {
             LocalDate dia = hoy.plusDays(i);
             diaCombo.addItem(dia.format(formatter));
+        }
+        // Seleccionar primer día automáticamente
+        if (diaCombo.getItemCount() > 0) {
+            diaCombo.setSelectedIndex(0);
+            cargarHorasDisponibles(); // Llamar inmediatamente
         }
     }
 
@@ -298,6 +346,12 @@ public class Recepcionista extends JFrame {
                     horaCombo.addItem(hora);
                 }
             }
+
+            // Seleccionar la primera hora automáticamente
+            if (horaCombo.getItemCount() > 0) {
+                horaCombo.setSelectedIndex(0);
+            }
+
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error al verificar disponibilidad: " + e.getMessage());
@@ -346,8 +400,7 @@ public class Recepcionista extends JFrame {
                 idPaciente = rs.getInt("id_paciente");
             } else {
                 JOptionPane.showMessageDialog(this, "Paciente no encontrado. Registre al paciente antes de agendar la cita.");
-                tabbedPane1.setSelectedComponent(registroPanel); // Cambiar a pestaña de registro
-                cedulaField.setText(ciPaciente); // Prellenar cédula en el registro
+
                 return;
             }
 
@@ -438,25 +491,8 @@ public class Recepcionista extends JFrame {
         }
     }
     private void limpiarTodosLosCampos() {
-        // Pestaña REGISTRO de pacientes
-        nombreField.setText("");
-        cedulaField.setText("");
-        fechaField.setText("");
-        telefonoField.setText("");
-        direccionField.setText("");
-        correoField.setText("");
-        if (generoCombo.getItemCount() > 0) {
-            generoCombo.setSelectedIndex(0);
-        }
 
-        // Pestaña AGENDAR CITA
-        cedulaBuscarField.setText("");
-        if (especialidadCombo.getItemCount() > 0) {
-            especialidadCombo.setSelectedIndex(0);
-        }
-        doctorCombo.removeAllItems();
-        diaCombo.removeAllItems();
-        horaCombo.removeAllItems();
+
 
         // Pestaña HISTORIAL
         cedulaBuscarHistField.setText("");

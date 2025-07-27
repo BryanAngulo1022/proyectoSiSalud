@@ -3,7 +3,8 @@ import Roles.Recepcionista;
 
 public class Pruebas {
     public static void main(String[] args) {
-        new Recepcionista("luis");
+       // new Recepcionista("luis");
+        new Administrador("luis");
     }
 
     // se ejecuata desde preubas

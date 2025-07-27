@@ -23,8 +23,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 /**
- * Clase Recepcionista que gestiona el panel de un recepcionista en el sistema SISALUD.
- * Permite registrar pacientes, agendar citas y consultar historial médico.
+ * Clase Recepcionista que gestiona la interfaz para el rol de recepcionista en el sistema SISALUD.
+ * Permite:
+ * <ul>
+ *     <li>Registrar pacientes en la base de datos.</li>
+ *     <li>Agendar citas médicas con disponibilidad. </li>
+ *     <li>Consultar historial médico de los pacientes.</li>
+ * </ul>
+ * Utiliza conexión a la base de datos My SQL
  */
 public class Recepcionista extends JFrame {
 
@@ -75,7 +81,6 @@ public class Recepcionista extends JFrame {
         setResizable(false);
         pack();
         setVisible(true);
-
 
         // Mostrar el nombre del usuario que inicia sesión
         nombreUsuarioCargar.setText("Bienvenido, " + nombreUsuario);
@@ -156,6 +161,11 @@ public class Recepcionista extends JFrame {
 
     }
 
+    /**
+     * Registra un nuevo paciente en la base de datos.
+     * Valida los campos obligatorios
+     */
+
     private void registrarPaciente() {
         String nombre = nombreField.getText().trim();
         String ci = cedulaField.getText().trim();
@@ -199,6 +209,9 @@ public class Recepcionista extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al registrar paciente: " + ex.getMessage());
         }
     }
+    /**
+     * Limpia los campos del formulario de registro de pacientes.
+     */
 
     private void limpiarCampos() {
         nombreField.setText("");
@@ -209,7 +222,9 @@ public class Recepcionista extends JFrame {
         correoField.setText("");
         generoCombo.setSelectedIndex(0);
     }
-
+    /**
+     * Busca un paciente en la base de datos por su cédula.
+     */
     private void buscarPaciente() {
         String cedula = cedulaBuscarField.getText().trim();
         if (cedula.isEmpty()) {
@@ -235,6 +250,11 @@ public class Recepcionista extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + ex.getMessage());
         }
     }
+
+    /**
+     * Carga la lista de especialidades médicas desde la base de datos en el combo correspondiente.
+     * Selecciona automáticamente la primera opción disponible.
+     */
     private void cargarEspecialidad() {
         try (Connection conn = ConexionBaseDatos.conectar();
              PreparedStatement ps = conn.prepareStatement("SELECT id_especialidad, nombre FROM especialidad");
@@ -257,6 +277,11 @@ public class Recepcionista extends JFrame {
         }
     }
 
+    /**
+     * Carga los doctores disponibles para la especialidad seleccionada.
+     * Incluye su jornada laboral (mañana, tarde o completa).
+     * Selecciona automáticamente el primer doctor y carga sus días disponibles.
+     */
 
     private void cargarDoctores() {
         String seleccion = (String) especialidadCombo.getSelectedItem();
@@ -288,7 +313,9 @@ public class Recepcionista extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar doctores: " + e.getMessage());
         }
     }
-
+    /**
+     * Carga los días disponibles para agendar citas (hoy + 4 días).
+     */
     private void cargarDiasDisponibles() {
         diaCombo.removeAllItems();
         LocalDate hoy = LocalDate.now();
@@ -304,7 +331,10 @@ public class Recepcionista extends JFrame {
             cargarHorasDisponibles(); // Llamar inmediatamente
         }
     }
-
+    /**
+     * Carga las horas disponibles para el doctor y día seleccionados,
+     * eliminando las que ya están reservadas.
+     */
     private void cargarHorasDisponibles() {
         horaCombo.removeAllItems();
 
@@ -357,7 +387,13 @@ public class Recepcionista extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al verificar disponibilidad: " + e.getMessage());
         }
     }
-
+    /**
+     * Genera intervalos de tiempo de 30 minutos
+     *
+     * @param inicio Hora de inicio (ej. "09:00")
+     * @param fin Hora de fin (ej. "13:00")
+     * @return Lista de intervalos en formato HH:mm
+     */
 
     private List<String> generarIntervalos(String inicio, String fin) {
         List<String> lista = new ArrayList<>();
@@ -372,7 +408,9 @@ public class Recepcionista extends JFrame {
         return lista;
     }
 
-
+    /**
+     * Agenda una cita para el paciente ingresado, validando que exista.
+     */
     private void agendarCita() {
         String ciPaciente = cedulaBuscarField.getText().trim();
         if (ciPaciente.isEmpty()) {
@@ -430,6 +468,9 @@ public class Recepcionista extends JFrame {
         }
     }
 
+    /**
+     * Busca y muestra el historial de citas de un paciente por su cédula.
+     */
     private void buscarHistorial() {
         String cedula = cedulaBuscarHistField.getText().trim();
 
@@ -490,10 +531,9 @@ public class Recepcionista extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al buscar historial: " + e.getMessage());
         }
     }
+
+    /** Limpia los campos del historial y la búsqueda. */
     private void limpiarTodosLosCampos() {
-
-
-
         // Pestaña HISTORIAL
         cedulaBuscarHistField.setText("");
         historialPanel.setText("");

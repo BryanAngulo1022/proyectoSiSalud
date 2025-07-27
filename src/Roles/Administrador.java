@@ -2,6 +2,7 @@ package Roles;
 
 import AdministradorCRUD.*;
 import Conexion.ConexionBaseDatos;
+import imagenes.FondoPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -31,10 +32,23 @@ public class Administrador extends JFrame {
 
     public Administrador(String nombreAdmin) {
         setTitle("Panel del Administrador- SISALUD");
-        setContentPane(administradorPanel);
-        setSize(800, 600);
+        setSize(600, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Creamos el panel de fondo
+        FondoPanel fondo = new FondoPanel();
+        fondo.setImagen("/imagenes/login.jpg");
+
+        // Hacemos transparente el panel diseñado
+        administradorPanel.setOpaque(false);
+
+        // Añadimos el loginPanel (con los botones creados en el diseñador) al panel de fondo
+        fondo.add(administradorPanel);
+
+        // Establecemos el fondo como contentPane
+        setContentPane(fondo);
+
+        setResizable(false);
         setVisible(true);
 
         // Mostrar el nombre del usuario que inicia sesión

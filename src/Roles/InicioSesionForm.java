@@ -1,13 +1,22 @@
 package Roles;
 
 import Conexion.ConexionBaseDatos;
+import imagenes.FondoPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.sql.*;
 
-/* Formulario de inicio de sesión para el sistema SISALUD.
+/**
+ * Formulario de inicio de sesión para el sistema SISALUD.
+ * Permite autenticar usuarios según su rol (Administrador o Recepcionista).
+ *
+ * @author Bryan
+ * @version 1.0
  */
 public class InicioSesionForm extends JFrame {
     private JTextField usuarioField;
@@ -15,14 +24,35 @@ public class InicioSesionForm extends JFrame {
     private JComboBox<String> rolComboBox;
     private JButton accederButton;
     private JPanel loginPanel;
+    FondoPanel fondo=new FondoPanel();
 
+
+    /**
+     * Constructor que inicializa el formulario de inicio de sesión.
+     * Configura título, tamaño y eventos de los botones.
+     */
     public InicioSesionForm() {
         setTitle("Inicio de Sesión - SISALUD");
-        setContentPane(loginPanel);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(450, 300);
         setLocationRelativeTo(null);
+
+        // Creamos el panel de fondo
+        FondoPanel fondo = new FondoPanel();
+        fondo.setImagen("/imagenes/login.jpg");
+
+        // Hacemos transparente el panel diseñado
+        loginPanel.setOpaque(false);
+
+        // Añadimos el loginPanel (con los botones creados en el diseñador) al panel de fondo
+        fondo.add(loginPanel);
+
+        // Establecemos el fondo como contentPane
+        setContentPane(fondo);
+        setResizable(false);
         setVisible(true);
+
+
 
         accederButton.addActionListener(new ActionListener() {
             @Override
@@ -32,7 +62,10 @@ public class InicioSesionForm extends JFrame {
         });
     }
 
-    /* Verifica si el usuario, contraseña y rol coinciden con los de la base de datos.
+
+    /**
+     * Verifica si el usuario, contraseña y rol coinciden con los datos en la base de datos.
+     * Si las credenciales son correctas, redirige al panel según el rol.
      */
     private void iniciarSesion() {
         String usuario = usuarioField.getText().trim(); // Usuario ingresado
@@ -68,7 +101,6 @@ public class InicioSesionForm extends JFrame {
 
                 String nombreUsuario = rs.getString("nombre");
 
-
                 if (rolSeleccionado.equalsIgnoreCase("Administrador")) {
                     new Administrador(nombreUsuario);
                 } else {
@@ -84,7 +116,13 @@ public class InicioSesionForm extends JFrame {
         }
     }
 
+    /**
+     * Metodo principal que inicia la aplicación.
+     */
     public static void main(String[] args) {
+
         new InicioSesionForm();
     }
 }
+
+

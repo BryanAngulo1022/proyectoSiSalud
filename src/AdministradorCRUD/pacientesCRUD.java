@@ -7,7 +7,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,8 +27,6 @@ public class pacientesCRUD extends JFrame{
     private JTextField nombreField;
     private JTextField cedulaField;
     private JTextField fechaField;
-    private JTextField cedulaBuscarField;
-    private JButton buscarButton;
     private JButton eliminarButton;
     private JButton buscarActButton;
     private JTextField nacimientoActField;
@@ -42,14 +39,13 @@ public class pacientesCRUD extends JFrame{
     private JTextField cedulaActField;
     private JComboBox generoActField;
     private JPanel registroPestana;
-    private JPanel eliminacionPestana;
     private JPanel actualizacionPestana;
     private JPanel verPestana;
 
     public pacientesCRUD() {
         setTitle("Panel del Administrador- SISALUD");
         setContentPane(usuariosCRUDPanel);
-        setSize(800, 600);
+        setSize(800, 700);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -60,22 +56,18 @@ public class pacientesCRUD extends JFrame{
                 registrarPaciente();
             }
         });
-        buscarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buscarPaciente();
-            }
-        });
+
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 eliminarPaciente();
+                limpiarCamposActulizacion();
+
             }
         });
         buscarActButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                buscarPaciente();
                 cargarPaciente();
             }
         });
@@ -83,6 +75,7 @@ public class pacientesCRUD extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 actualizarPaciente();
+                limpiarCamposActulizacion();
             }
         });
         mostrarPacientesRegistradosButton.addActionListener(new ActionListener() {
@@ -108,6 +101,7 @@ public class pacientesCRUD extends JFrame{
                 }
             }
         });
+
     }
 
 
@@ -170,36 +164,12 @@ public class pacientesCRUD extends JFrame{
     }
 
     // Eliminacion de pacientes
-    private void buscarPaciente() {
-        String cedula = cedulaBuscarField.getText().trim();
-        if (cedula.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese la cédula del paciente.");
-            return;
-        }
 
-        String sql = "SELECT * FROM paciente WHERE ci = ?";
-
-        try (Connection conn = ConexionBaseDatos.conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, cedula);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "Paciente encontrado.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Paciente no encontrado.");
-            }
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar paciente: " + ex.getMessage());
-        }
-    }
 
 
 
     private void eliminarPaciente() {
-         String cedula = cedulaBuscarField.getText();
+         String cedula = cedulaBuscarActField.getText();
 
         if (cedula.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor ingrese la cédula del paciente a eliminar.");
@@ -293,7 +263,7 @@ public class pacientesCRUD extends JFrame{
         }
     }
 
-
+//Panel actualizar
     private void actualizarPaciente() {
         String nombre = nombreActField.getText().trim();
         String ci = cedulaActField.getText().trim();
@@ -342,6 +312,14 @@ public class pacientesCRUD extends JFrame{
         }
     }
 
+    private void limpiarCamposActulizacion() {
+        nombreActField.setText("");
+        cedulaActField.setText("");
+        nacimientoActField.setText("");
+        telefonoActField.setText("");
+        direccionActField.setText("");
+        correoActField.setText("");
+    }
 
     //Mostrar pacientes registrados
     private void mostrarPacientesRegistrados() {

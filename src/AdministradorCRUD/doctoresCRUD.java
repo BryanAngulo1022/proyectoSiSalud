@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import Validaciones.Validador;
 
 public class doctoresCRUD extends JFrame {
     private JPanel doctoresCRUDPanel;
@@ -107,11 +108,26 @@ public class doctoresCRUD extends JFrame {
         String especialidadSeleccionada = (String) especialidadCombo.getSelectedItem();
         String jornada = (String) jornadaCombo.getSelectedItem();
 
+        //validaciones
         if (nombre.isEmpty() || ci.isEmpty() || correo.isEmpty() || telefono.isEmpty()
                 || especialidadSeleccionada == null || jornada == null) {
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
             return;
         }
+
+        if (!Validador.validarCedula(ci)) {
+            JOptionPane.showMessageDialog(this, "La cédula debe tener exactamente 10 dígitos.");
+            return;
+        }
+        if (!Validador.validarCorreo(correo)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un correo electrónico válido.");
+            return;
+        }
+        if (!Validador.validarTelefono(telefono)) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe tener exactamente 10 dígitos.");
+            return;
+        }
+//Coneccion
 
         try (Connection conn = ConexionBaseDatos.conectar()) {
             // Obtener el id_especialidad correspondiente al nombre
@@ -198,7 +214,6 @@ public class doctoresCRUD extends JFrame {
             if (rs.next()) {
                 // Cargar los campos en el formulario
                 nombreActField.setText(rs.getString("nombre"));
-                cedulaActField.setText(ci);
                 correoActField.setText(rs.getString("correo"));
                 telefonoActField.setText(rs.getString("telefono"));
                 jornadaActCombo.setSelectedItem(rs.getString("jornada"));
@@ -217,16 +232,29 @@ public class doctoresCRUD extends JFrame {
 
 
     private void actualizarDoctor() {
-        String ci = cedulaActField.getText().trim();  // CI es el identificador
+        String ci = cedulaBuscarActField.getText().trim();  // CI es el identificador
         String nuevoNombre = nombreActField.getText().trim();
         String nuevoCorreo = correoActField.getText().trim();
         String nuevoTelefono = telefonoActField.getText().trim();
         String nuevaEspecialidad = (String) especialidadActCombo.getSelectedItem();
         String nuevaJornada = (String) jornadaActCombo.getSelectedItem();
 
+        //validaciones
         if (ci.isEmpty() || nuevoNombre.isEmpty() || nuevoCorreo.isEmpty() || nuevoTelefono.isEmpty()
                 || nuevaEspecialidad == null || nuevaJornada == null) {
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
+            return;
+        }
+        if (!Validador.validarCedula(ci)) {
+            JOptionPane.showMessageDialog(this, "La cédula debe tener exactamente 10 dígitos.");
+            return;
+        }
+        if (!Validador.validarCorreo(nuevoCorreo)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un correo electrónico válido.");
+            return;
+        }
+        if (!Validador.validarTelefono(nuevoTelefono)) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe tener exactamente 10 dígitos.");
             return;
         }
 

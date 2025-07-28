@@ -13,7 +13,10 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+/**
+ * Clase Administrador que gestiona la interfaz y funcionalidades del rol Administrador.
+ * Permite acceder a la gestión de pacientes, doctores y reportes.
+ */
 public class Administrador extends JFrame {
     private JPanel administradorPanel;
     private JTabbedPane tabbedPane1;
@@ -52,7 +55,7 @@ public class Administrador extends JFrame {
         setVisible(true);
 
         // Mostrar el nombre del usuario que inicia sesión
-        nombreAdmCargar.setText("Bienvenido, " + nombreAdmin);
+        nombreAdmCargar.setText("Bienvenid@, " + nombreAdmin);
 
         //Regresar a iniciar sesion
         cerrarSesionButton.addActionListener(new ActionListener() {
@@ -240,8 +243,6 @@ public class Administrador extends JFrame {
     }
 
 
-    public static void main(String[] args) {
-        new Administrador("JUAN");
-    }
+
 
 }

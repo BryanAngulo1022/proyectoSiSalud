@@ -21,7 +21,6 @@ public class InicioSesionForm extends JFrame {
     private JComboBox<String> rolComboBox;
     private JButton accederButton;
     private JPanel loginPanel;
-    FondoPanel fondo=new FondoPanel();
 
 
     /**

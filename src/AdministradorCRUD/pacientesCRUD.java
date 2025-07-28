@@ -1,6 +1,7 @@
 package AdministradorCRUD;
 import Conexion.ConexionBaseDatos;
-import Roles.Administrador;
+
+import Validaciones.Validador;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -117,9 +118,21 @@ public class pacientesCRUD extends JFrame{
         String direccion = direccionField.getText().trim();
         String genero = (String) generoCombo.getSelectedItem();
         String correo = correoField.getText().trim();
-
+//Validaciones
         if (nombre.isEmpty() || ci.isEmpty() || fechaNacimiento.isEmpty() || telefono.isEmpty() || genero == null || correo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos obligatorios deben ser completados.");
+            return;
+        }
+        if (!Validador.validarCedula(ci)) {
+            JOptionPane.showMessageDialog(this, "La cédula debe tener exactamente 10 dígitos.");
+            return;
+        }
+        if (!Validador.validarCorreo(correo)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un correo electrónico válido.");
+            return;
+        }
+        if (!Validador.validarTelefono(telefono)) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe tener exactamente 10 dígitos.");
             return;
         }
 
@@ -130,7 +143,7 @@ public class pacientesCRUD extends JFrame{
             JOptionPane.showMessageDialog(this, "La fecha debe estar en formato YYYY-MM-DD.");
             return;
         }
-
+//Coneccion
         String sql = "INSERT INTO paciente (nombre, ci, fecha_nacimiento, telefono, direccion, genero, correo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexion = ConexionBaseDatos.conectar();
@@ -238,6 +251,7 @@ public class pacientesCRUD extends JFrame{
             return;
         }
 
+
         String sql = "SELECT * FROM paciente WHERE ci = ?";
 
         try (Connection conn = ConexionBaseDatos.conectar();
@@ -248,7 +262,6 @@ public class pacientesCRUD extends JFrame{
 
             if (rs.next()) {
                 nombreActField.setText(rs.getString("nombre"));
-                cedulaActField.setText(rs.getString("ci"));
                 nacimientoActField.setText(rs.getString("fecha_nacimiento"));
                 telefonoActField.setText(rs.getString("telefono"));
                 direccionActField.setText(rs.getString("direccion"));
@@ -266,7 +279,7 @@ public class pacientesCRUD extends JFrame{
 //Panel actualizar
     private void actualizarPaciente() {
         String nombre = nombreActField.getText().trim();
-        String ci = cedulaActField.getText().trim();
+        String ci = cedulaBuscarActField.getText().trim();
         String fechaNacimiento = nacimientoActField.getText().trim();
         String telefono = telefonoActField.getText().trim();
         String direccion = direccionActField.getText().trim();
@@ -277,6 +290,19 @@ public class pacientesCRUD extends JFrame{
             JOptionPane.showMessageDialog(this, "Todos los campos deben estar completos.");
             return;
         }
+        if (!Validador.validarCedula(ci)) {
+            JOptionPane.showMessageDialog(this, "La cédula debe tener exactamente 10 dígitos.");
+            return;
+        }
+        if (!Validador.validarCorreo(correo)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un correo electrónico válido.");
+            return;
+        }
+        if (!Validador.validarTelefono(telefono)) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe tener exactamente 10 dígitos.");
+            return;
+        }
+
 
         java.sql.Date fechaSql;
         try {
@@ -314,7 +340,6 @@ public class pacientesCRUD extends JFrame{
 
     private void limpiarCamposActulizacion() {
         nombreActField.setText("");
-        cedulaActField.setText("");
         nacimientoActField.setText("");
         telefonoActField.setText("");
         direccionActField.setText("");

@@ -2,15 +2,11 @@ package Roles;
 
 import Conexion.ConexionBaseDatos;
 import imagenes.FondoPanel;
+import Validaciones.Validador;
 
 import javax.swing.*;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,9 +62,9 @@ public class Recepcionista extends JFrame {
      */
     public Recepcionista(String nombreUsuario) {
         setTitle("Panel del Recepcionista - SISALUD");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(750, 800);
+        setSize(600, 750);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Creamos el panel de fondo
         FondoPanel fondo = new FondoPanel();
         fondo.setImagen("/imagenes/login.jpg");
@@ -83,7 +79,7 @@ public class Recepcionista extends JFrame {
         setVisible(true);
 
         // Mostrar el nombre del usuario que inicia sesión
-        nombreUsuarioCargar.setText("Bienvenido, " + nombreUsuario);
+        nombreUsuarioCargar.setText("Bienvenid@, " + nombreUsuario);
 
         // Pestana de registro de paciente
         guardarButton.addActionListener(new ActionListener() {
@@ -180,6 +176,25 @@ public class Recepcionista extends JFrame {
             return;
         }
 
+        // Validar cédula
+        if (!Validador.validarCedula(ci)) {
+            JOptionPane.showMessageDialog(this, "La cédula debe tener exactamente 10 dígitos numéricos.");
+            return;
+        }
+
+        // Validar teléfono
+        if (!Validador.validarTelefono(telefono)) {
+            JOptionPane.showMessageDialog(this, "El teléfono debe tener exactamente 10 dígitos numéricos.");
+            return;
+        }
+
+    // Validar correo
+        if (!Validador.validarCorreo(correo)) {
+            JOptionPane.showMessageDialog(this, "Ingrese un correo electrónico válido.");
+            return;
+        }
+
+    //Coneccion
         java.sql.Date fechaSql;
         try {
             fechaSql = java.sql.Date.valueOf(fechaNacimiento); // formato: YYYY-MM-DD

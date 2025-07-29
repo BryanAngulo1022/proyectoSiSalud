@@ -12,6 +12,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+/**
+ * Clase {@code pacientesCRUD} implementa la interfaz gráfica para la gestión
+ * de pacientes en el sistema SISALUD. Permite realizar operaciones CRUD (Crear,
+ * Leer, Actualizar y Eliminar) sobre la entidad {@code paciente} en la base de datos.
+ *
+ * <p>Las funcionalidades incluyen:</p>
+ * <ul>
+ *     <li>Registrar nuevos pacientes con validación de datos.</li>
+ *     <li>Actualizar la información de pacientes existentes.</li>
+ *     <li>Eliminar pacientes y sus citas asociadas.</li>
+ *     <li>Mostrar la lista completa de pacientes registrados.</li>
+ * </ul>
+ *
+ * Esta clase utiliza {@link ConexionBaseDatos} para las conexiones a la base de datos
+ * y {@link Validaciones.Validador} para validar cédulas, correos y teléfonos.
+ *
+ * @author Bryan
+ * @version 1.0
+ */
 
 public class pacientesCRUD extends JFrame{
 
@@ -43,6 +62,10 @@ public class pacientesCRUD extends JFrame{
     private JPanel actualizacionPestana;
     private JPanel verPestana;
 
+    /**
+     * Constructor que inicializa la interfaz gráfica y asigna los listeners
+     * para los botones del CRUD.
+     */
     public pacientesCRUD() {
         setTitle("Panel del Administrador- SISALUD");
         setContentPane(usuariosCRUDPanel);
@@ -106,7 +129,10 @@ public class pacientesCRUD extends JFrame{
     }
 
 
-
+    /**
+     * Aquí están los metodos para registrar pacientes, limpiar campos, eliminar paciente, cargar paciente
+     * buscar paciente, actualizar pacientes y mostrar pacientes
+     */
 
     //Registro pacientes
 

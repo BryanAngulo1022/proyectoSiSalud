@@ -1,7 +1,11 @@
 package Validaciones;
 
 /**
- * Clase para validar campos comunes en el sistema SISALUD.
+ * Clase {@code Validador} permite validar campos en el sistema SISALUD,
+ * como cédula, correo electrónico y teléfono.
+ *
+ * @author Bryan
+ * @version 1.0
  */
 public class Validador {
 

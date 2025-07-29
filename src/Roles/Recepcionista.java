@@ -19,14 +19,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 /**
- * Clase Recepcionista que gestiona la interfaz para el rol de recepcionista en el sistema SISALUD.
- * Permite:
+ * Clase {@code Recepcionista} que gestiona la interfaz y funcionalidades para el rol
+ * de recepcionista en el sistema SISALUD.
+ *
+ * <p>Funciones principales:</p>
  * <ul>
- *     <li>Registrar pacientes en la base de datos.</li>
- *     <li>Agendar citas médicas con disponibilidad. </li>
- *     <li>Consultar historial médico de los pacientes.</li>
+ *     <li>Registrar nuevos pacientes con validación.</li>
+ *     <li>Agendar citas médicas validando disponibilidad y paciente existente.</li>
+ *     <li>Consultar historial de citas de pacientes.</li>
  * </ul>
- * Utiliza conexión a la base de datos My SQL
+ *
+ * <p>Esta clase conecta con la base de datos MySQL para realizar operaciones CRUD
+ * relacionadas con pacientes y citas.</p>
+ *
+ * @author Bryan
+ * @version 1.0
  */
 public class Recepcionista extends JFrame {
 
@@ -55,6 +62,7 @@ public class Recepcionista extends JFrame {
     private JPanel citaPanel;
     private JComboBox horaCombo;
     private JLabel nombreUsuarioCargar;
+
 
     /**
      * Constructor que inicializa la interfaz del recepcionista y carga los eventos.
@@ -159,7 +167,7 @@ public class Recepcionista extends JFrame {
 
     /**
      * Registra un nuevo paciente en la base de datos.
-     * Valida los campos obligatorios
+     * Válida los campos obligatorios
      */
 
     private void registrarPaciente() {

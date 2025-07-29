@@ -10,7 +10,15 @@ import java.sql.*;
 
 /**
  * Formulario de inicio de sesión para el sistema SISALUD.
- * Permite autenticar usuarios según su rol (Administrador o Recepcionista).
+ * Permite autenticar usuarios según su rol (Administrador o Recepcionista)
+ * y redirige al panel correspondiente tras una validación exitosa.
+ *
+ * <p>Este formulario incluye:</p>
+ * <ul>
+ *     <li>Campos para usuario y contraseña.</li>
+ *     <li>Selección del rol de acceso.</li>
+ *     <li>Botón para iniciar sesión.</li>
+ * </ul>
  *
  * @author Bryan
  * @version 1.0
@@ -60,8 +68,16 @@ public class InicioSesionForm extends JFrame {
 
 
     /**
-     * Verifica si el usuario, contraseña y rol coinciden con los datos en la base de datos.
-     * Si las credenciales son correctas, redirige al panel según el rol.
+     * Verifica las credenciales (usuario, contraseña y rol) en la base de datos.
+     * Si son correctas, abre el panel correspondiente al rol seleccionado.
+     *
+     * <p>Roles disponibles:</p>
+     * <ul>
+     *     <li>Administrador → {@link Administrador}</li>
+     *     <li>Recepcionista → {@link Recepcionista}</li>
+     * </ul>
+     *
+     * <p>En caso de error, muestra un mensaje en pantalla.</p>
      */
     private void iniciarSesion() {
         String usuario = usuarioField.getText().trim(); // Usuario ingresado
@@ -111,13 +127,8 @@ public class InicioSesionForm extends JFrame {
         }
     }
 
-    /**
-     * Metodo principal que inicia la aplicación.
-     */
-    public static void main(String[] args) {
 
-        new InicioSesionForm();
-    }
+
 }
 
 

@@ -9,7 +9,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import Validaciones.Validador;
-
+/**
+ * Clase {@code doctoresCRUD} implementa la interfaz gráfica para la gestión
+ * de doctores en el sistema SISALUD. Permite realizar operaciones CRUD (Crear,
+ * Leer, Actualizar y Eliminar) sobre la entidad {@code doctor} en la base de datos.
+ *
+ * Las funcionalidades incluyen:
+ * <ul>
+ *     <li>Registrar nuevos doctores con validación de datos.</li>
+ *     <li>Actualizar la información de doctores existentes.</li>
+ *     <li>Eliminar doctores del sistema.</li>
+ *     <li>Mostrar la lista completa de doctores registrados.</li>
+ * </ul>
+ *
+ * Esta clase utiliza {@link ConexionBaseDatos} para las conexiones a la base de datos
+ * y {@link Validaciones.Validador} para validar cédulas, correos y teléfonos.
+ *
+ * @author Bryan
+ * @version 1.0
+ */
 public class doctoresCRUD extends JFrame {
     private JPanel doctoresCRUDPanel;
     private JTabbedPane tabbedPane1;
@@ -34,6 +52,12 @@ public class doctoresCRUD extends JFrame {
     private JButton eliminarButton;
     private JButton mostrarDoctoresRegistradosButton;
     private JPanel verPestana;
+
+    /**
+     * Constructor que inicializa la ventana de administración de doctores.
+     * Configura la interfaz gráfica, carga las especialidades y define los eventos
+     * para los botones y pestañas.
+     */
 
     public doctoresCRUD() {
         setTitle("Panel del Administrador- SISALUD");
@@ -98,7 +122,10 @@ public class doctoresCRUD extends JFrame {
         });
     }
 
-
+    /**
+     * Aquí están los metodos para registrar doctores, limpiar campos, cargar especialidad
+     * buscar doctores, actualizar doctores y mostrar doctores
+     */
 
     private void registrarDoctor() {
         String nombre = nombreField.getText().trim();

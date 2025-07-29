@@ -14,8 +14,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 /**
- * Clase Administrador que gestiona la interfaz y funcionalidades del rol Administrador.
- * Permite acceder a la gestión de pacientes, doctores y reportes.
+ * Clase {@code Administrador} representa el panel principal para el rol Administrador
+ * en el sistema SISALUD. Proporciona acceso a la gestión de pacientes, doctores y
+ * generación de reportes.
+ *
+ * <p>Incluye las siguientes funcionalidades:</p>
+ * <ul>
+ *     <li>Abrir el módulo de gestión de pacientes.</li>
+ *     <li>Abrir el módulo de gestión de doctores.</li>
+ *     <li>Generar reportes por especialidad y reportes generales.</li>
+ *     <li>Cerrar sesión y regresar al formulario de inicio de sesión.</li>
+ * </ul>
+ *
+ * Esta clase utiliza {@link ConexionBaseDatos} para la conexión a la base de datos.
+ *
+ * @author Bryan
+ * @version 1.0
  */
 public class Administrador extends JFrame {
     private JPanel administradorPanel;
@@ -32,6 +46,12 @@ public class Administrador extends JFrame {
     private JScrollPane tablaReporte;
     private JTable reporteGeneralTable;
     private JButton verReporteButton1;
+
+    /**
+     * Constructor que inicializa la interfaz gráfica para el rol Administrador.
+     *
+     * @param nombreAdmin Nombre del administrador que inició sesión.
+     */
 
     public Administrador(String nombreAdmin) {
         setTitle("Panel del Administrador- SISALUD");
@@ -117,7 +137,10 @@ public class Administrador extends JFrame {
         });
     }
 
-
+    /**
+     * Metodos para cargar especialidad, generar reportes por especialidad seleccionada,
+     * y las añade al combo box {@code especialidadCombo}.
+     */
 
 
     private void cargarEspecialidades() {
@@ -138,6 +161,11 @@ public class Administrador extends JFrame {
         }
     }
 
+    /**
+     * Genera un reporte detallado por especialidad seleccionada,
+     * mostrando el número de citas atendidas, pendientes y el total por doctor.
+     *
+     */
     private void generarReporte() {
         String especialidadSeleccionada = (String) especialidadCombo.getSelectedItem();
 
@@ -193,7 +221,11 @@ public class Administrador extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte: " + e.getMessage());
         }
     }
-
+    /**
+     * Genera un reporte general de todas las especialidades,
+     * mostrando citas atendidas, pendientes y totales.
+     *
+     */
 
     private void generarReporteGeneral() {
         try (Connection conn = ConexionBaseDatos.conectar()) {

@@ -1,10 +1,16 @@
+import Conexion.ConexionBaseDatos;
 import Roles.Administrador;
 import Roles.Recepcionista;
+
+import java.sql.Connection;
 
 public class Pruebas {
     public static void main(String[] args) {
        //new Recepcionista("luis");
-       new Administrador("luis");
+      new Administrador("luis");
+
+        //Connection conectar = ConexionBaseDatos.conectar();
+
     }
 
 

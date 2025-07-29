@@ -13,9 +13,9 @@
           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <font name="Roboto Light" size="18"/>
-          <icon value="imagenes/pacienteIcon.png"/>
-          <text value="Gestión de doctores: "/>
+          <font name="Roboto Light" size="18" style="1"/>
+          <icon value="Imagenes/pacienteIcon.png"/>
+          <text value="Gestión de pacientes:"/>
         </properties>
       </component>
       <component id="3a3f3" class="javax.swing.JButton" binding="regresarButton" default-binding="true">
@@ -66,8 +66,8 @@
                 </constraints>
                 <properties>
                   <font name="Roboto Light" size="16"/>
-                  <icon value="imagenes/crearIcon.png"/>
-                  <text value="Creación de nuevos doctores"/>
+                  <icon value="Imagenes/crearIcon.png"/>
+                  <text value="Creación de nuevos pacientes"/>
                 </properties>
               </component>
               <component id="be559" class="javax.swing.JLabel">
@@ -271,7 +271,7 @@
                 </constraints>
                 <properties>
                   <font name="Roboto Light" size="16"/>
-                  <icon value="imagenes/buscarIcon.png"/>
+                  <icon value="Imagenes/buscarIcon.png"/>
                   <text value="Buscar paciente"/>
                 </properties>
               </component>
@@ -482,7 +482,7 @@
                   <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="imagenes/actualizarIcon.png"/>
+                  <icon value="Imagenes/actualizarIcon.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -491,7 +491,7 @@
                   <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="imagenes/eliminarIcon.png"/>
+                  <icon value="Imagenes/eliminarIcon.png"/>
                   <text value=""/>
                 </properties>
               </component>
@@ -534,7 +534,7 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <icon value="imagenes/mostrarIcon.png"/>
+                  <icon value="Imagenes/mostrarIcon.png"/>
                   <text value=""/>
                 </properties>
               </component>

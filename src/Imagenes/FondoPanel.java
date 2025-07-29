@@ -1,4 +1,4 @@
-package imagenes;
+package Imagenes;
 
 import javax.swing.*;
 import java.awt.*;

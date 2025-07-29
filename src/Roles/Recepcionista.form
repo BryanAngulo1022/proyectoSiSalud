@@ -166,7 +166,7 @@
                 </constraints>
                 <properties>
                   <font name="Roboto Light" size="16" style="1"/>
-                  <icon value="imagenes/registroIcon.png"/>
+                  <icon value="Imagenes/registroIcon.png"/>
                   <text value="Registro de Pacientes"/>
                 </properties>
               </component>
@@ -353,7 +353,7 @@
                 </constraints>
                 <properties>
                   <font name="Roboto Light" size="16" style="1"/>
-                  <icon value="imagenes/citaIcon.png"/>
+                  <icon value="Imagenes/citaIcon.png"/>
                   <text value="Registrar cita"/>
                 </properties>
               </component>
@@ -615,7 +615,7 @@
                 </constraints>
                 <properties>
                   <font name="Roboto Light" size="16" style="1"/>
-                  <icon value="imagenes/historialIcon.png"/>
+                  <icon value="Imagenes/historialIcon.png"/>
                   <text value="Historial médico"/>
                 </properties>
               </component>

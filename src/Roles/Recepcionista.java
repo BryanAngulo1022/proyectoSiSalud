@@ -1,7 +1,7 @@
 package Roles;
 
 import Conexion.ConexionBaseDatos;
-import imagenes.FondoPanel;
+import Imagenes.FondoPanel;
 import Validaciones.Validador;
 
 import javax.swing.*;
@@ -75,7 +75,7 @@ public class Recepcionista extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Creamos el panel de fondo
         FondoPanel fondo = new FondoPanel();
-        fondo.setImagen("/imagenes/login.jpg");
+        fondo.setImagen("/Imagenes/login.jpg");
         // Hacemos transparente el panel diseñado
         RecepcionistaPanel.setOpaque(false);
         // Añadimos el loginPanel (con los botones creados en el diseñador) al panel de fondo

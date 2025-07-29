@@ -2,12 +2,13 @@ package Roles;
 
 import AdministradorCRUD.*;
 import Conexion.ConexionBaseDatos;
-import imagenes.FondoPanel;
+import Imagenes.FondoPanel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -46,6 +47,15 @@ public class Administrador extends JFrame {
     private JScrollPane tablaReporte;
     private JTable reporteGeneralTable;
     private JButton verReporteButton1;
+    private JButton limpiarButton;
+    private JTextField cedulaBuscarHistField;
+    private JButton buscarHistorialButton;
+    private JButton verCitaButton;
+    private JButton eliminarCitaButton;
+    private JScrollPane historialScrollPanel;
+    private JPanel listaCitasCargarPanel;
+    private JTextArea datosCargarPanel;
+    private JPanel citasCargarPanel;
 
     /**
      * Constructor que inicializa la interfaz gráfica para el rol Administrador.
@@ -60,7 +70,7 @@ public class Administrador extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Creamos el panel de fondo
         FondoPanel fondo = new FondoPanel();
-        fondo.setImagen("/imagenes/login.jpg");
+        fondo.setImagen("/Imagenes/login.jpg");
 
         // Hacemos transparente el panel diseñado
         administradorPanel.setOpaque(false);
@@ -107,10 +117,6 @@ public class Administrador extends JFrame {
         });
 
 
-
-
-
-
         //Panel de Reportes
 
         tabbedPane1.addChangeListener(new ChangeListener() {
@@ -135,7 +141,41 @@ public class Administrador extends JFrame {
                 generarReporteGeneral();
             }
         });
+
+        //Panel de citas
+        limpiarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Limpiar paneles
+                datosCargarPanel.setText("");
+                listaCitasCargarPanel.removeAll();
+                listaCitasCargarPanel.revalidate();
+                listaCitasCargarPanel.repaint();
+            }
+        });
+        buscarHistorialButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarHistorialCitas();
+            }
+        });
+        eliminarCitaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarCitas();
+            }
+        });
+        verCitaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                verCitas();
+
+            }
+        });
     }
+
+
+
 
     /**
      * Metodos para cargar especialidad, generar reportes por especialidad seleccionada,
@@ -272,6 +312,142 @@ public class Administrador extends JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al generar el reporte general: " + e.getMessage());
         }
+    }
+
+    private void buscarHistorialCitas() {
+        String cedula = cedulaBuscarHistField.getText().trim();
+        if (cedula.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese la cédula.");
+            return;
+        }
+
+        datosCargarPanel.setText("");
+        listaCitasCargarPanel.removeAll();
+        listaCitasCargarPanel.revalidate();
+        listaCitasCargarPanel.repaint();
+
+        try (Connection conn = ConexionBaseDatos.conectar()) {
+            String sqlPaciente = "SELECT nombre, fecha_nacimiento, telefono, correo FROM paciente WHERE ci = ?";
+            PreparedStatement stmtPaciente = conn.prepareStatement(sqlPaciente);
+            stmtPaciente.setString(1, cedula);
+            ResultSet rsPaciente = stmtPaciente.executeQuery();
+
+            if (rsPaciente.next()) {
+                String datos = "Paciente: " + rsPaciente.getString("nombre") + "\n"
+                        + "Nacimiento: " + rsPaciente.getString("fecha_nacimiento") + "\n"
+                        + "Teléfono: " + rsPaciente.getString("telefono") + "\n"
+                        + "Correo: " + rsPaciente.getString("correo");
+                datosCargarPanel.setText(datos);
+            } else {
+                JOptionPane.showMessageDialog(null, "Paciente no encontrado.");
+                return;
+            }
+
+            String sqlCitas = "SELECT c.id_cita, d.nombre AS doctor, c.fecha, c.hora " +
+                    "FROM cita c " +
+                    "JOIN doctor d ON c.id_doctor = d.id_doctor " +
+                    "JOIN paciente p ON c.id_paciente = p.id_paciente " +
+                    "WHERE p.ci = ? AND c.fecha >= CURDATE() " +
+                    "ORDER BY c.fecha, c.hora";
+
+            PreparedStatement stmtCitas = conn.prepareStatement(sqlCitas);
+            stmtCitas.setString(1, cedula);
+            ResultSet rsCitas = stmtCitas.executeQuery();
+
+            listaCitasCargarPanel.setLayout(new BoxLayout(listaCitasCargarPanel, BoxLayout.Y_AXIS));
+            ButtonGroup grupo = new ButtonGroup();
+            boolean hayCitas = false;
+
+            while (rsCitas.next()) {
+                hayCitas = true;
+                int idCita = rsCitas.getInt("id_cita");
+                String detalle = rsCitas.getString("fecha") + " " + rsCitas.getString("hora") +
+                        " con Dr. " + rsCitas.getString("doctor");
+
+                JRadioButton radio = new JRadioButton(detalle);
+                radio.putClientProperty("idCita", idCita);
+                grupo.add(radio);
+                listaCitasCargarPanel.add(radio);
+            }
+
+            if (!hayCitas) {
+                listaCitasCargarPanel.add(new JLabel("No hay citas pendientes."));
+            }
+
+            listaCitasCargarPanel.revalidate();
+            listaCitasCargarPanel.repaint();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al cargar historial: " + ex.getMessage());
+        }
+    }
+
+
+
+    private void eliminarCitas() {
+        for (Component comp : listaCitasCargarPanel.getComponents()) {
+            if (comp instanceof JRadioButton) {
+                JRadioButton radio = (JRadioButton) comp;
+                if (radio.isSelected()) {
+
+                    int idCita = (int) radio.getClientProperty("idCita");
+                    try (Connection conn = ConexionBaseDatos.conectar()) {
+                        PreparedStatement stmt = conn.prepareStatement("DELETE FROM cita WHERE id_cita = ?");
+                        stmt.setInt(1, idCita);
+                        stmt.executeUpdate();
+                        JOptionPane.showMessageDialog(null, "Cita eliminada correctamente.");
+                        buscarHistorialCitas();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar: " + ex.getMessage());
+                    }
+                    return;
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Seleccione una cita para eliminar.");
+    }
+
+
+
+    private void verCitas() {
+        for (Component comp : listaCitasCargarPanel.getComponents()) {
+            if (comp instanceof JRadioButton) {
+                JRadioButton radio = (JRadioButton) comp;
+                if (radio.isSelected()) {
+                    int idCita = (int) radio.getClientProperty("idCita");
+
+                    try (Connection conn = ConexionBaseDatos.conectar()) {
+                        PreparedStatement stmt = conn.prepareStatement(
+                                "SELECT p.nombre AS paciente, d.nombre AS doctor, e.nombre AS especialidad, " +
+                                        "c.fecha, c.hora " +
+                                        "FROM cita c " +
+                                        "JOIN paciente p ON c.id_paciente = p.id_paciente " +
+                                        "JOIN doctor d ON c.id_doctor = d.id_doctor " +
+                                        "JOIN especialidad e ON d.id_especialidad = e.id_especialidad " +
+                                        "WHERE c.id_cita = ?");
+                        stmt.setInt(1, idCita);
+                        ResultSet rs = stmt.executeQuery();
+
+                        if (rs.next()) {
+                            String mensaje = "Paciente: " + rs.getString("paciente") + "\n"
+                                    + "Doctor: " + rs.getString("doctor") + "\n"
+                                    + "Especialidad: " + rs.getString("especialidad") + "\n"
+                                    + "Fecha: " + rs.getString("fecha") + "\n"
+                                    + "Hora: " + rs.getString("hora");
+                            JOptionPane.showMessageDialog(null, mensaje, "Detalle de Cita", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "Error al cargar cita: " + ex.getMessage());
+                    }
+
+                    return;
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Seleccione una cita para ver.");
     }
 
 

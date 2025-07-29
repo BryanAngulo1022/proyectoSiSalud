@@ -1,7 +1,7 @@
 package Roles;
 
 import Conexion.ConexionBaseDatos;
-import imagenes.FondoPanel;
+import Imagenes.FondoPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -43,7 +43,7 @@ public class InicioSesionForm extends JFrame {
 
         // Creamos el panel de fondo
         FondoPanel fondo = new FondoPanel();
-        fondo.setImagen("/imagenes/login.jpg");
+        fondo.setImagen("/Imagenes/login.jpg");
 
         // Hacemos transparente el panel diseñado
         loginPanel.setOpaque(false);
